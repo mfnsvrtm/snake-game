@@ -1,8 +1,8 @@
 package com.github.mfnsvrtm.SnakeGame.Logic;
 
-import com.github.mfnsvrtm.SnakeGame.Logic.Model.FoodModel;
-import com.github.mfnsvrtm.SnakeGame.Logic.Model.SnakeModel;
-import com.github.mfnsvrtm.SnakeGame.Logic.Model.GameModel;
+import com.github.mfnsvrtm.SnakeGame.Model.FoodModel;
+import com.github.mfnsvrtm.SnakeGame.Model.SnakeModel;
+import com.github.mfnsvrtm.SnakeGame.Model.GameModel;
 import com.github.mfnsvrtm.SnakeGame.Logic.Util.Direction;
 import com.github.mfnsvrtm.SnakeGame.Logic.Util.Vec2D;
 
