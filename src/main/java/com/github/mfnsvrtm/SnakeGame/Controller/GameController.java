@@ -4,6 +4,7 @@ import com.github.mfnsvrtm.SnakeGame.Logic.Game;
 import com.github.mfnsvrtm.SnakeGame.Logic.Util.Direction;
 import com.github.mfnsvrtm.SnakeGame.Logic.Util.Vec2D;
 
+import com.github.mfnsvrtm.SnakeGame.Model.GameModel;
 import javafx.animation.AnimationTimer;
 import javafx.beans.property.*;
 import javafx.event.EventHandler;
@@ -16,8 +17,12 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 
 import java.net.URL;
-import java.util.Random;
 import java.util.ResourceBundle;
+import java.util.Timer;
+import java.util.TimerTask;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class GameController implements Initializable {
     public StackPane root;
@@ -27,10 +32,12 @@ public class GameController implements Initializable {
     public VBox scoreContainer;
     public VBox finalScoreContainer;
 
-    private final Game game = new Game(20, 20);
-    private final Random random = new Random();
-
     private AnimationTimer timer;
+
+    private volatile GameModel state;
+    private final Object turnDirectionLock = new Object();
+    private Direction turnDirection;
+    private final BlockingQueue<Vec2D> foodQueue = new LinkedBlockingQueue<>();
 
     private final IntegerProperty scoreProperty = new SimpleIntegerProperty(0);
     private final BooleanProperty runningProperty = new SimpleBooleanProperty(true);
@@ -49,6 +56,48 @@ public class GameController implements Initializable {
             }
         });
 
+        Timer logicTimer = new Timer(true);
+        logicTimer.schedule(new TimerTask() {
+            private final Game game = new Game(20, 20);
+
+            @Override
+            public void run() {
+                var running = game.tick();
+                state = game.state();
+
+                if (!running) {
+                    cancel();
+                    return;
+                }
+
+                if (turnDirection != null) {
+                    synchronized (turnDirectionLock) {
+                        game.snake().turn(turnDirection);
+                        turnDirection = null;
+                    }
+                }
+
+                while (true) {
+                    var food = foodQueue.poll();
+                    if (food == null) break;
+                    game.food().add(food);
+                }
+            }
+        }, 0, 50);
+
+        Timer foodTimer = new Timer(true);
+        foodTimer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                var random = ThreadLocalRandom.current();
+                if (random.nextFloat() < 0.05) {
+                    foodQueue.add(new Vec2D(
+                            random.nextInt(0, 20),
+                            random.nextInt(0, 20)));
+                }
+            }
+        }, 0, 50);
+
         timer = new AnimationTimer() {
             @Override
             public void handle(long l) {
@@ -64,10 +113,14 @@ public class GameController implements Initializable {
     }
 
     private void render(GraphicsContext gc) {
-        double cellWidth = canvas.getWidth() / game.world().width();
-        double cellHeight = canvas.getHeight() / game.world().height();
+        if (!state.running()) {
+            runningProperty.set(false);
+            onGameOver();
+        }
 
-        var state = game.state();
+        double cellWidth = canvas.getWidth() / 20;
+        double cellHeight = canvas.getHeight() / 20;
+
         scoreProperty.set(state.score());
 
         gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
@@ -81,17 +134,6 @@ public class GameController implements Initializable {
             var pos = food.position();
             gc.fillRect(pos.x * cellWidth, pos.y * cellHeight, cellWidth, cellHeight);
         }
-
-        if (!game.tick()) {
-            runningProperty.set(false);
-            onGameOver();
-        }
-
-        if (random.nextFloat() < 0.05) {
-            game.food().add(new Vec2D(
-                    random.nextInt(0, game.world().width()),
-                    random.nextInt(0, game.world().height())));
-        }
     }
 
     private void onGameOver() {
@@ -100,13 +142,17 @@ public class GameController implements Initializable {
 
     private final EventHandler<KeyEvent> onKeyPressed = (e) -> {
         if (e.getCode().isArrowKey()) {
-            game.snake().turn(switch (e.getCode()) {
+            var direction = switch (e.getCode()) {
                 case DOWN -> Direction.DOWN;
                 case UP -> Direction.UP;
                 case LEFT -> Direction.LEFT;
                 case RIGHT -> Direction.RIGHT;
                 default -> null;
-            });
+            };
+
+            synchronized (turnDirectionLock) {
+                turnDirection = direction;
+            }
         }
     };
 }
