@@ -2,29 +2,31 @@ package com.github.mfnsvrtm.SnakeGame.Logic;
 
 import com.github.mfnsvrtm.SnakeGame.Logic.Util.Direction;
 import com.github.mfnsvrtm.SnakeGame.Logic.Util.Vec2D;
+import com.github.mfnsvrtm.SnakeGame.Model.SnakeModel;
 
 import java.util.ArrayDeque;
 import java.util.Deque;
 import java.util.List;
-import java.util.Set;
 
 public class Snake {
+    private final Game game;
     private final Deque<Vec2D> body;
     private Direction direction;
 
 
-    Snake(Vec2D position, Direction direction) {
+    Snake(Game game, Vec2D position, Direction direction) {
+        this.game = game;
         this.body = new ArrayDeque<>(List.of(position));
         this.direction = direction;
     }
 
 
-    boolean move(World world, Set<Vec2D> food) {
-        Vec2D newHead = world.move(body.getFirst(), direction);
+    boolean move() {
+        Vec2D newHead = game.world.move(body.getFirst(), direction);
 
-        if (food.contains(newHead)) {
+        if (game.food.contains(newHead)) {
             body.addFirst(newHead);
-            food.remove(newHead);
+            game.food.remove(newHead);
             return true;
         }
 
@@ -47,12 +49,12 @@ public class Snake {
         return body.contains(position);
     }
 
-
-    Iterable<Vec2D> body() {
-        return body;
-    }
-
     int size() {
         return body.size();
+    }
+
+
+    SnakeModel model() {
+        return new SnakeModel(body);
     }
 }

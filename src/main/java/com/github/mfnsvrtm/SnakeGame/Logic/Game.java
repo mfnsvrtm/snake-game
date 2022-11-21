@@ -1,18 +1,13 @@
 package com.github.mfnsvrtm.SnakeGame.Logic;
 
-import com.github.mfnsvrtm.SnakeGame.Model.FoodModel;
-import com.github.mfnsvrtm.SnakeGame.Model.SnakeModel;
 import com.github.mfnsvrtm.SnakeGame.Model.GameModel;
 import com.github.mfnsvrtm.SnakeGame.Logic.Util.Direction;
 import com.github.mfnsvrtm.SnakeGame.Logic.Util.Vec2D;
 
-import java.util.HashSet;
-import java.util.Set;
-
 public class Game {
-    private final World world;
-    private final Snake snake;
-    private final Set<Vec2D> food;
+    final World world;
+    final Snake snake;
+    final Food food;
 
     private boolean running;
     private int score;
@@ -33,7 +28,7 @@ public class Game {
             return false;
         }
 
-        running = snake.move(world, food);
+        running = snake.move();
         if (running) {
             updateScore();
         }
@@ -41,24 +36,22 @@ public class Game {
         return running;
     }
 
-    public void addFood(Vec2D position) {
-        if (!snake.contains(position)) {
-            food.add(position);
-        }
-    }
-
-
-    public Snake snake() {
-        return snake;
-    }
 
     public World world() {
         return world;
     }
 
+    public Snake snake() {
+        return snake;
+    }
+
+    public Food food() {
+        return food;
+    }
+
     public GameModel state() {
-        var snake = new SnakeModel(this.snake.body());
-        var food = this.food.stream().map(FoodModel::new).toList();
+        var snake = this.snake.model();
+        var food = this.food.model();
         return new GameModel(snake, food, running, score);
     }
 
@@ -68,11 +61,11 @@ public class Game {
     }
 
 
-    private static Snake makeDefaultSnake() {
-        return new Snake(new Vec2D(0, 0), Direction.RIGHT);
+    private Snake makeDefaultSnake() {
+        return new Snake(this, new Vec2D(0, 0), Direction.RIGHT);
     }
 
-    private static Set<Vec2D> makeDefaultFood() {
-        return new HashSet<>();
+    private Food makeDefaultFood() {
+        return new Food(this);
     }
 }
