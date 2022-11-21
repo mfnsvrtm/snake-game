@@ -1,0 +1,16 @@
+.score-container {
+    -fx-font-size: 16pt;
+    -fx-background-color: rgba(0, 0, 0, .8);
+    -fx-padding: 5px;
+ }
+
+.final-score-container {
+    -fx-font-size: 24pt;
+    -fx-font-weight: bold;
+    -fx-background-color: rgba(0, 0, 0, .8);
+    -fx-padding: 20px;
+}
+
+.final-score-container > Label, .score-container > Label {
+    -fx-text-fill: white
+}

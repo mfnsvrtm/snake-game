@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.canvas.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<StackPane fx:id="root" stylesheets="@/style.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.github.mfnsvrtm.SnakeGame.Controller.GameController">
+    <Canvas fx:id="canvas" height="600.0" width="800.0" />
+    <VBox fx:id="scoreContainer" alignment="TOP_CENTER" fillWidth="false">
+        <HBox alignment="CENTER" styleClass="score-container">
+            <Label text="Score: " />
+            <Label fx:id="score" />
+        </HBox>
+    </VBox>
+    <VBox fx:id="finalScoreContainer" alignment="CENTER" fillWidth="false" visible="false">
+        <TextFlow styleClass="final-score-container" textAlignment="CENTER">
+            <Label text="Final Score: " />
+            <Label fx:id="finalScore" />
+        </TextFlow>
+    </VBox>
+</StackPane>
