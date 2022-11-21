@@ -49,7 +49,7 @@ public class Game {
         return food;
     }
 
-    public GameModel state() {
+    public GameModel model() {
         var snake = this.snake.model();
         var food = this.food.model();
         return new GameModel(snake, food, running, score);

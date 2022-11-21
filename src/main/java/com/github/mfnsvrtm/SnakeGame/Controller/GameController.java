@@ -67,7 +67,7 @@ public class GameController implements Initializable {
         double cellWidth = canvas.getWidth() / game.world().width();
         double cellHeight = canvas.getHeight() / game.world().height();
 
-        var state = game.state();
+        var state = game.model();
         scoreProperty.set(state.score());
 
         gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
