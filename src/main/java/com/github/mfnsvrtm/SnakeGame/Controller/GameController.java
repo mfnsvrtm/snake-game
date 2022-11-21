@@ -87,7 +87,7 @@ public class GameController implements Initializable {
             onGameOver();
         }
 
-        if (random.nextFloat() < 0.5) {
+        if (random.nextFloat() < 0.05) {
             game.addFood(new Vec2D(
                     random.nextInt(0, game.world().width()),
                     random.nextInt(0, game.world().height())));
