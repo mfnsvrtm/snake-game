@@ -24,6 +24,7 @@ import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadLocalRandom;
 
+// TODO: Move anonymous TimerTask implementations into separate classes
 public class GameController implements Initializable {
     public StackPane root;
     public Canvas canvas;
@@ -34,6 +35,7 @@ public class GameController implements Initializable {
 
     private AnimationTimer timer;
 
+    // TODO: prevent concurrent access in render (double buffering)
     private volatile GameModel model;
     private final Object turnDirectionLock = new Object();
     private Direction turnDirection;
@@ -85,6 +87,7 @@ public class GameController implements Initializable {
             }
         }, 0, 50);
 
+        // TODO: replace hardcoded values (world dimensions)
         Timer foodTimer = new Timer(true);
         foodTimer.schedule(new TimerTask() {
             @Override
