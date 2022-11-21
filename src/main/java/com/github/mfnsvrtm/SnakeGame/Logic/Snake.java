@@ -43,6 +43,10 @@ public class Snake {
         }
     }
 
+    boolean contains(Vec2D position) {
+        return body.contains(position);
+    }
+
 
     Iterable<Vec2D> body() {
         return body;

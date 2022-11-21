@@ -42,7 +42,9 @@ public class Game {
     }
 
     public void addFood(Vec2D position) {
-        food.add(position);
+        if (!snake.contains(position)) {
+            food.add(position);
+        }
     }
 
 
