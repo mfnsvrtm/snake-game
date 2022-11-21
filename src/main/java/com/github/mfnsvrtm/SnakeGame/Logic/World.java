@@ -2,6 +2,7 @@ package com.github.mfnsvrtm.SnakeGame.Logic;
 
 import com.github.mfnsvrtm.SnakeGame.Logic.Util.Direction;
 import com.github.mfnsvrtm.SnakeGame.Logic.Util.Vec2D;
+import com.github.mfnsvrtm.SnakeGame.Model.WorldModel;
 
 public class World {
     private final int width;
@@ -24,6 +25,11 @@ public class World {
         }
 
         return position.moved(direction);
+    }
+
+
+    WorldModel model() {
+        return new WorldModel(width, height);
     }
 
 
