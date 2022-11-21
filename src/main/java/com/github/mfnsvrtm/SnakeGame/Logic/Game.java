@@ -36,11 +36,7 @@ public class Game {
         return running;
     }
 
-
-    public World world() {
-        return world;
-    }
-
+    
     public Snake snake() {
         return snake;
     }
@@ -49,10 +45,11 @@ public class Game {
         return food;
     }
 
-    public GameModel state() {
+    public GameModel model() {
         var snake = this.snake.model();
         var food = this.food.model();
-        return new GameModel(snake, food, running, score);
+        var world = this.world.model();
+        return new GameModel(snake, food, world, running, score);
     }
 
 

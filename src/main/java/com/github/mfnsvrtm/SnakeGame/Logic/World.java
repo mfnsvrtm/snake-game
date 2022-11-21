@@ -2,6 +2,7 @@ package com.github.mfnsvrtm.SnakeGame.Logic;
 
 import com.github.mfnsvrtm.SnakeGame.Logic.Util.Direction;
 import com.github.mfnsvrtm.SnakeGame.Logic.Util.Vec2D;
+import com.github.mfnsvrtm.SnakeGame.Model.WorldModel;
 
 public class World {
     private final int width;
@@ -27,12 +28,8 @@ public class World {
     }
 
 
-    public int width() {
-        return width;
-    }
-
-    public int height() {
-        return height;
+    WorldModel model() {
+        return new WorldModel(width, height);
     }
 
     private int top() {

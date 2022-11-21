@@ -34,7 +34,7 @@ public class GameController implements Initializable {
 
     private AnimationTimer timer;
 
-    private volatile GameModel state;
+    private volatile GameModel model;
     private final Object turnDirectionLock = new Object();
     private Direction turnDirection;
     private final BlockingQueue<Vec2D> foodQueue = new LinkedBlockingQueue<>();
@@ -63,7 +63,7 @@ public class GameController implements Initializable {
             @Override
             public void run() {
                 var running = game.tick();
-                state = game.state();
+                model = game.model();
 
                 if (!running) {
                     cancel();
@@ -113,24 +113,24 @@ public class GameController implements Initializable {
     }
 
     private void render(GraphicsContext gc) {
-        if (!state.running()) {
+        if (!model.running()) {
             runningProperty.set(false);
             onGameOver();
         }
 
-        double cellWidth = canvas.getWidth() / 20;
-        double cellHeight = canvas.getHeight() / 20;
+        double cellWidth = canvas.getWidth() / model.world().width();
+        double cellHeight = canvas.getHeight() / model.world().height();
 
-        scoreProperty.set(state.score());
+        scoreProperty.set(model.score());
 
         gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
         gc.setFill(Color.BLACK);
-        for (var pos : state.snake().body()) {
+        for (var pos : model.snake().body()) {
             gc.fillRect(pos.x * cellWidth, pos.y * cellHeight, cellWidth, cellHeight);
         }
 
         gc.setFill(Color.RED);
-        for (var food : state.food()) {
+        for (var food : model.food()) {
             var pos = food.position();
             gc.fillRect(pos.x * cellWidth, pos.y * cellHeight, cellWidth, cellHeight);
         }
