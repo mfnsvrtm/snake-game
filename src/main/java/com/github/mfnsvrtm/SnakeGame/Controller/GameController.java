@@ -64,16 +64,18 @@ public class GameController implements Initializable {
         new Timer(true).schedule(foodTask, 0, 50);
 
         timer = new AnimationTimer() {
+            private GameModel oldModel = null;
+
             @Override
             public void handle(long l) {
-                render(canvas.getGraphicsContext2D());
-                try {
-                    Thread.sleep(50);
-                } catch (InterruptedException e) {
-                    throw new RuntimeException(e);
+                var model = modelAtomic.get();
+                if (model != oldModel) {
+                    render(canvas.getGraphicsContext2D());
+                    oldModel = model;
                 }
             }
         };
+
         timer.start();
     }
 
