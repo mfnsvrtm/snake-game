@@ -5,6 +5,8 @@ import com.github.mfnsvrtm.SnakeGame.Logic.Util.Direction;
 import com.github.mfnsvrtm.SnakeGame.Logic.Util.Vec2D;
 
 import com.github.mfnsvrtm.SnakeGame.Model.GameModel;
+import com.github.mfnsvrtm.SnakeGame.Task.FoodTask;
+import com.github.mfnsvrtm.SnakeGame.Task.LogicTask;
 import javafx.animation.AnimationTimer;
 import javafx.beans.property.*;
 import javafx.event.EventHandler;
@@ -19,12 +21,10 @@ import javafx.scene.paint.Color;
 import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.Timer;
-import java.util.TimerTask;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
-import java.util.concurrent.ThreadLocalRandom;
+import java.util.concurrent.atomic.AtomicReference;
 
-// TODO: Move anonymous TimerTask implementations into separate classes
 public class GameController implements Initializable {
     public StackPane root;
     public Canvas canvas;
@@ -35,10 +35,9 @@ public class GameController implements Initializable {
 
     private AnimationTimer timer;
 
-    // TODO: prevent concurrent access in render (double buffering)
-    private volatile GameModel model;
-    private final Object turnDirectionLock = new Object();
-    private Direction turnDirection;
+    private final Game game = new Game(20, 20);
+    private final AtomicReference<GameModel> modelAtomic = new AtomicReference<>(game.model());
+    private final AtomicReference<Direction> turnDirectionAtomic = new AtomicReference<>(null);
     private final BlockingQueue<Vec2D> foodQueue = new LinkedBlockingQueue<>();
 
     private final IntegerProperty scoreProperty = new SimpleIntegerProperty(0);
@@ -58,48 +57,11 @@ public class GameController implements Initializable {
             }
         });
 
-        Timer logicTimer = new Timer(true);
-        logicTimer.schedule(new TimerTask() {
-            private final Game game = new Game(20, 20);
+        var logicTask = new LogicTask(game, modelAtomic, turnDirectionAtomic, foodQueue);
+        new Timer(true).schedule(logicTask, 0, 50);
 
-            @Override
-            public void run() {
-                var running = game.tick();
-                model = game.model();
-
-                if (!running) {
-                    cancel();
-                    return;
-                }
-
-                if (turnDirection != null) {
-                    synchronized (turnDirectionLock) {
-                        game.snake().turn(turnDirection);
-                        turnDirection = null;
-                    }
-                }
-
-                while (true) {
-                    var food = foodQueue.poll();
-                    if (food == null) break;
-                    game.food().add(food);
-                }
-            }
-        }, 0, 50);
-
-        // TODO: replace hardcoded values (world dimensions)
-        Timer foodTimer = new Timer(true);
-        foodTimer.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                var random = ThreadLocalRandom.current();
-                if (random.nextFloat() < 0.05) {
-                    foodQueue.add(new Vec2D(
-                            random.nextInt(0, 20),
-                            random.nextInt(0, 20)));
-                }
-            }
-        }, 0, 50);
+        var foodTask = new FoodTask(modelAtomic, foodQueue);
+        new Timer(true).schedule(foodTask, 0, 50);
 
         timer = new AnimationTimer() {
             @Override
@@ -116,6 +78,8 @@ public class GameController implements Initializable {
     }
 
     private void render(GraphicsContext gc) {
+        var model = modelAtomic.get();
+        
         if (!model.running()) {
             runningProperty.set(false);
             onGameOver();
@@ -145,17 +109,13 @@ public class GameController implements Initializable {
 
     private final EventHandler<KeyEvent> onKeyPressed = (e) -> {
         if (e.getCode().isArrowKey()) {
-            var direction = switch (e.getCode()) {
+            turnDirectionAtomic.set(switch (e.getCode()) {
                 case DOWN -> Direction.DOWN;
                 case UP -> Direction.UP;
                 case LEFT -> Direction.LEFT;
                 case RIGHT -> Direction.RIGHT;
                 default -> null;
-            };
-
-            synchronized (turnDirectionLock) {
-                turnDirection = direction;
-            }
+            });
         }
     };
 }
