@@ -5,6 +5,7 @@ import com.github.mfnsvrtm.SnakeGame.Logic.Util.Direction;
 import com.github.mfnsvrtm.SnakeGame.Logic.Util.Vec2D;
 
 import com.github.mfnsvrtm.SnakeGame.Model.GameModel;
+import com.github.mfnsvrtm.SnakeGame.Model.WorldModel;
 import com.github.mfnsvrtm.SnakeGame.Task.FoodTask;
 import com.github.mfnsvrtm.SnakeGame.Task.LogicTask;
 import javafx.animation.AnimationTimer;
@@ -34,8 +35,9 @@ public class GameController implements Initializable {
     public VBox finalScoreContainer;
 
     private AnimationTimer timer;
+    private RenderMetrics metrics;
 
-    private final Game game = new Game(20, 20);
+    private final Game game = new Game(20, 30);
     private final AtomicReference<GameModel> modelAtomic = new AtomicReference<>(game.model());
     private final AtomicReference<Direction> turnDirectionAtomic = new AtomicReference<>(null);
     private final BlockingQueue<Vec2D> foodQueue = new LinkedBlockingQueue<>();
@@ -45,6 +47,8 @@ public class GameController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        metrics = new RenderMetrics(game.model().world(), canvas);
+
         score.textProperty().bind(scoreProperty.asString());
         finalScore.textProperty().bind(scoreProperty.asString());
 
@@ -90,19 +94,20 @@ public class GameController implements Initializable {
     }
 
     private void render(GameModel model, GraphicsContext gc) {
-        double cellWidth = canvas.getWidth() / model.world().width();
-        double cellHeight = canvas.getHeight() / model.world().height();
+        var x = metrics.xOffset;
+        var y = metrics.yOffset;
+        var size = metrics.cellSize;
 
         gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
         gc.setFill(Color.BLACK);
         for (var pos : model.snake().body()) {
-            gc.fillRect(pos.x * cellWidth, pos.y * cellHeight, cellWidth, cellHeight);
+            gc.fillRect(x + pos.x * size, y + pos.y * size, size, size);
         }
 
         gc.setFill(Color.RED);
         for (var food : model.food()) {
             var pos = food.position();
-            gc.fillRect(pos.x * cellWidth, pos.y * cellHeight, cellWidth, cellHeight);
+            gc.fillRect(x + pos.x * size, y + pos.y * size, size, size);
         }
     }
 
@@ -121,4 +126,30 @@ public class GameController implements Initializable {
             });
         }
     };
+}
+
+class RenderMetrics {
+    public final double worldWidth;
+    public final double worldHeight;
+
+    public final double cellSize;
+
+    public final double xOffset;
+    public final double yOffset;
+
+    public RenderMetrics(WorldModel worldModel, Canvas canvas) {
+        if (worldModel.width() > worldModel.height()) {
+            worldWidth = canvas.getWidth();
+            cellSize = worldWidth / worldModel.width();
+            worldHeight = cellSize * worldModel.height();
+            yOffset = (canvas.getHeight() - worldHeight) / 2;
+            xOffset = 0;
+        } else {
+            worldHeight = canvas.getHeight();
+            cellSize = worldHeight / worldModel.height();
+            worldWidth = cellSize * worldModel.width();
+            xOffset = (canvas.getWidth() - worldWidth) / 2;
+            yOffset = 0;
+        }
+    }
 }
