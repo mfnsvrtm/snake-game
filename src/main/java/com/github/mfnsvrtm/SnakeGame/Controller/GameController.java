@@ -70,7 +70,8 @@ public class GameController implements Initializable {
             public void handle(long l) {
                 var model = modelAtomic.get();
                 if (model != oldModel) {
-                    render(canvas.getGraphicsContext2D());
+                    update(model);
+                    render(model, canvas.getGraphicsContext2D());
                     oldModel = model;
                 }
             }
@@ -79,18 +80,18 @@ public class GameController implements Initializable {
         timer.start();
     }
 
-    private void render(GraphicsContext gc) {
-        var model = modelAtomic.get();
-        
+    private void update(GameModel model) {
+        scoreProperty.set(model.score());
+
         if (!model.running()) {
             runningProperty.set(false);
             onGameOver();
         }
+    }
 
+    private void render(GameModel model, GraphicsContext gc) {
         double cellWidth = canvas.getWidth() / model.world().width();
         double cellHeight = canvas.getHeight() / model.world().height();
-
-        scoreProperty.set(model.score());
 
         gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
         gc.setFill(Color.BLACK);
