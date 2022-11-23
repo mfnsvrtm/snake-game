@@ -29,14 +29,9 @@ public class LogicTask extends TimerTask {
         var running = game.tick();
         modelAtomic.set(game.model());
 
-        if (!running) {
-            cancel();
-            return;
-        }
-
         // If turnDirection gets updated after the .get() and before the .getAndSet(), that's fine. If that
         // happens, it should still be non-null. The only atomic part that I care about is .getAndSet().
-        if (turnDirectionAtomic.get() != null) {
+        if (running && turnDirectionAtomic.get() != null) {
             game.snake().turn(turnDirectionAtomic.getAndSet(null));
         }
 
