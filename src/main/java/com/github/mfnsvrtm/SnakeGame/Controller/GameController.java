@@ -29,10 +29,10 @@ public class GameController implements Initializable {
     public VBox startMenu;
     public VBox gameOverMenu;
 
-    private AnimationTimer animationTimer;
-
     private RenderMetrics metrics;
-    private final ThreadedGame game = new ThreadedGame(20, 30);
+
+    private final WorldModel world = new WorldModel(20, 30);
+    private final ThreadedGame game = new ThreadedGame(world.width(), world.height());
 
     private final BooleanProperty startedProperty = new SimpleBooleanProperty(false);
     private final BooleanProperty gameOverProperty = new SimpleBooleanProperty(false);
@@ -40,6 +40,8 @@ public class GameController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        metrics = new RenderMetrics(world, canvas);
+
         score.textProperty().bind(scoreProperty.asString());
         finalScore.textProperty().bind(scoreProperty.asString());
 
@@ -57,9 +59,7 @@ public class GameController implements Initializable {
 
     private void startGame() {
         game.start();
-        metrics = new RenderMetrics(game.model().world(), canvas);
-
-        animationTimer = new AnimationTimer() {
+        new AnimationTimer() {
             private GameModel oldModel = null;
 
             @Override
@@ -71,14 +71,12 @@ public class GameController implements Initializable {
                     oldModel = model;
                 }
             }
-        };
-        animationTimer.start();
+        }.start();
     }
 
     private void endGame() {
         game.stop();
-        // This is intended. I like that food continues to spawn.
-        // animationTimer.stop();
+        // I intentionally don't stop the AnimationTimer. That way food keeps spawning.
     }
 
 
