@@ -1,16 +1,35 @@
-.score-container {
+.small-container {
     -fx-font-size: 16pt;
     -fx-background-color: rgba(0, 0, 0, .8);
     -fx-padding: 5px;
  }
 
-.final-score-container {
+.large-container {
     -fx-font-size: 24pt;
     -fx-font-weight: bold;
     -fx-background-color: rgba(0, 0, 0, .8);
     -fx-padding: 20px;
+    -fx-spacing: 10px;
 }
 
-.final-score-container > Label, .score-container > Label {
+.small-container Label, .large-container Label {
     -fx-text-fill: white
+}
+
+.menu {
+    -fx-spacing: 20px;
+    -fx-padding: 0;
+}
+
+.menu > Button {
+    -fx-background-color: transparent;
+    -fx-border-color: white;
+    -fx-text-fill: white;
+    -fx-border-width: 3;
+    -fx-font-size: 20pt;
+}
+
+.menu > Button:hover {
+    -fx-background-color: white;
+    -fx-text-fill: black;
 }

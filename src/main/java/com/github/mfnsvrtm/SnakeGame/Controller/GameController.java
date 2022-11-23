@@ -9,6 +9,7 @@ import com.github.mfnsvrtm.SnakeGame.Model.WorldModel;
 import com.github.mfnsvrtm.SnakeGame.Task.FoodTask;
 import com.github.mfnsvrtm.SnakeGame.Task.LogicTask;
 import javafx.animation.AnimationTimer;
+import javafx.application.Platform;
 import javafx.beans.property.*;
 import javafx.event.EventHandler;
 import javafx.fxml.Initializable;
@@ -32,68 +33,88 @@ public class GameController implements Initializable {
     public Label score;
     public Label finalScore;
     public VBox scoreContainer;
-    public VBox finalScoreContainer;
+    public VBox startMenu;
+    public VBox gameOverMenu;
 
-    private AnimationTimer timer;
+    private AnimationTimer animationTimer;
+    private Timer logicTimer;
+    private Timer foodTimer;
+
     private RenderMetrics metrics;
 
-    private final Game game = new Game(20, 30);
-    private final AtomicReference<GameModel> modelAtomic = new AtomicReference<>(game.model());
-    private final AtomicReference<Direction> turnDirectionAtomic = new AtomicReference<>(null);
-    private final BlockingQueue<Vec2D> foodQueue = new LinkedBlockingQueue<>();
+    private Game game ;
+    private AtomicReference<GameModel> modelAtomic;
+    private AtomicReference<Direction> turnDirectionAtomic;
+    private BlockingQueue<Vec2D> foodQueue;
 
+    private final BooleanProperty startedProperty = new SimpleBooleanProperty(false);
+    private final BooleanProperty gameOverProperty = new SimpleBooleanProperty(false);
     private final IntegerProperty scoreProperty = new SimpleIntegerProperty(0);
-    private final BooleanProperty runningProperty = new SimpleBooleanProperty(true);
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        metrics = new RenderMetrics(game.model().world(), canvas);
-
         score.textProperty().bind(scoreProperty.asString());
         finalScore.textProperty().bind(scoreProperty.asString());
 
-        scoreContainer.visibleProperty().bind(runningProperty);
-        finalScoreContainer.visibleProperty().bind(runningProperty.not());
+        scoreContainer.visibleProperty().bind(startedProperty.and(gameOverProperty.not()));
+        startMenu.visibleProperty().bind(startedProperty.not());
+        gameOverMenu.visibleProperty().bind(gameOverProperty);
 
         root.sceneProperty().addListener((observableScene, oldScene, newScene) -> {
             if (oldScene == null && newScene != null) {
                 newScene.setOnKeyPressed(onKeyPressed);
             }
         });
+    }
+
+    private void initLogic() {
+        game = new Game(20, 30);
+        modelAtomic = new AtomicReference<>(game.model());
+        turnDirectionAtomic = new AtomicReference<>(null);
+        foodQueue = new LinkedBlockingQueue<>();
+
+        metrics = new RenderMetrics(game.model().world(), canvas);
 
         var logicTask = new LogicTask(game, modelAtomic, turnDirectionAtomic, foodQueue);
-        new Timer(true).schedule(logicTask, 0, 50);
+        logicTimer = new Timer(true);
+        logicTimer.schedule(logicTask, 0, 50);
 
         var foodTask = new FoodTask(modelAtomic, foodQueue);
-        new Timer(true).schedule(foodTask, 0, 50);
+        foodTimer = new Timer(true);
+        foodTimer.schedule(foodTask, 0, 50);
 
-        timer = new AnimationTimer() {
+        animationTimer = new AnimationTimer() {
             private GameModel oldModel = null;
 
             @Override
             public void handle(long l) {
                 var model = modelAtomic.get();
                 if (model != oldModel) {
-                    update(model);
-                    render(model, canvas.getGraphicsContext2D());
+                    updateLogic(model);
+                    updateCanvas(model, canvas.getGraphicsContext2D());
                     oldModel = model;
                 }
             }
         };
-
-        timer.start();
+        animationTimer.start();
     }
 
-    private void update(GameModel model) {
+    private void terminateLogic() {
+        logicTimer.cancel();
+        foodTimer.cancel();
+        animationTimer.stop();
+    }
+
+    private void updateLogic(GameModel model) {
         scoreProperty.set(model.score());
 
         if (!model.running()) {
-            runningProperty.set(false);
+            gameOverProperty.set(true);
             onGameOver();
         }
     }
 
-    private void render(GameModel model, GraphicsContext gc) {
+    private void updateCanvas(GameModel model, GraphicsContext gc) {
         var x = metrics.xOffset;
         var y = metrics.yOffset;
         var size = metrics.cellSize;
@@ -112,7 +133,7 @@ public class GameController implements Initializable {
     }
 
     private void onGameOver() {
-        timer.stop();
+        terminateLogic();
     }
 
     private final EventHandler<KeyEvent> onKeyPressed = (e) -> {
@@ -126,6 +147,21 @@ public class GameController implements Initializable {
             });
         }
     };
+
+    public void onStartAction() {
+        startedProperty.set(true);
+        initLogic();
+    }
+
+    public void onRestartAction() {
+        gameOverProperty.set(false);
+        terminateLogic();
+        initLogic();
+    }
+
+    public void onExitAction() {
+        Platform.exit();
+    }
 }
 
 class RenderMetrics {
