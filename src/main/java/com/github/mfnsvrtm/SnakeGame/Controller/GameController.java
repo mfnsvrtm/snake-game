@@ -1,13 +1,10 @@
 package com.github.mfnsvrtm.SnakeGame.Controller;
 
-import com.github.mfnsvrtm.SnakeGame.Logic.Game;
 import com.github.mfnsvrtm.SnakeGame.Logic.Util.Direction;
-import com.github.mfnsvrtm.SnakeGame.Logic.Util.Vec2D;
 
 import com.github.mfnsvrtm.SnakeGame.Model.GameModel;
 import com.github.mfnsvrtm.SnakeGame.Model.WorldModel;
-import com.github.mfnsvrtm.SnakeGame.Task.FoodTask;
-import com.github.mfnsvrtm.SnakeGame.Task.LogicTask;
+import com.github.mfnsvrtm.SnakeGame.Threading.ThreadedGame;
 import javafx.animation.AnimationTimer;
 import javafx.application.Platform;
 import javafx.beans.property.*;
@@ -22,10 +19,6 @@ import javafx.scene.paint.Color;
 
 import java.net.URL;
 import java.util.ResourceBundle;
-import java.util.Timer;
-import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.LinkedBlockingQueue;
-import java.util.concurrent.atomic.AtomicReference;
 
 public class GameController implements Initializable {
     public StackPane root;
@@ -37,15 +30,9 @@ public class GameController implements Initializable {
     public VBox gameOverMenu;
 
     private AnimationTimer animationTimer;
-    private Timer logicTimer;
-    private Timer foodTimer;
 
     private RenderMetrics metrics;
-
-    private Game game ;
-    private AtomicReference<GameModel> modelAtomic;
-    private AtomicReference<Direction> turnDirectionAtomic;
-    private BlockingQueue<Vec2D> foodQueue;
+    private final ThreadedGame game = new ThreadedGame(20, 30);
 
     private final BooleanProperty startedProperty = new SimpleBooleanProperty(false);
     private final BooleanProperty gameOverProperty = new SimpleBooleanProperty(false);
@@ -67,31 +54,20 @@ public class GameController implements Initializable {
         });
     }
 
-    private void initLogic() {
-        game = new Game(20, 30);
-        modelAtomic = new AtomicReference<>(game.model());
-        turnDirectionAtomic = new AtomicReference<>(null);
-        foodQueue = new LinkedBlockingQueue<>();
 
+    private void startGame() {
+        game.start();
         metrics = new RenderMetrics(game.model().world(), canvas);
-
-        var logicTask = new LogicTask(game, modelAtomic, turnDirectionAtomic, foodQueue);
-        logicTimer = new Timer(true);
-        logicTimer.schedule(logicTask, 0, 50);
-
-        var foodTask = new FoodTask(modelAtomic, foodQueue);
-        foodTimer = new Timer(true);
-        foodTimer.schedule(foodTask, 0, 50);
 
         animationTimer = new AnimationTimer() {
             private GameModel oldModel = null;
 
             @Override
             public void handle(long l) {
-                var model = modelAtomic.get();
+                var model = game.model();
                 if (model != oldModel) {
-                    updateLogic(model);
-                    updateCanvas(model, canvas.getGraphicsContext2D());
+                    update(model);
+                    render(model, canvas.getGraphicsContext2D());
                     oldModel = model;
                 }
             }
@@ -99,22 +75,18 @@ public class GameController implements Initializable {
         animationTimer.start();
     }
 
-    private void terminateLogic() {
-        logicTimer.cancel();
-        foodTimer.cancel();
+    private void endGame() {
+        game.stop();
         animationTimer.stop();
     }
 
-    private void updateLogic(GameModel model) {
-        scoreProperty.set(model.score());
 
-        if (!model.running()) {
-            gameOverProperty.set(true);
-            onGameOver();
-        }
+    private void update(GameModel model) {
+        scoreProperty.set(model.score());
+        gameOverProperty.set(!model.running());
     }
 
-    private void updateCanvas(GameModel model, GraphicsContext gc) {
+    private void render(GameModel model, GraphicsContext gc) {
         var x = metrics.xOffset;
         var y = metrics.yOffset;
         var size = metrics.cellSize;
@@ -132,13 +104,10 @@ public class GameController implements Initializable {
         }
     }
 
-    private void onGameOver() {
-        terminateLogic();
-    }
 
     private final EventHandler<KeyEvent> onKeyPressed = (e) -> {
         if (e.getCode().isArrowKey()) {
-            turnDirectionAtomic.set(switch (e.getCode()) {
+            game.turn(switch (e.getCode()) {
                 case DOWN -> Direction.DOWN;
                 case UP -> Direction.UP;
                 case LEFT -> Direction.LEFT;
@@ -148,15 +117,16 @@ public class GameController implements Initializable {
         }
     };
 
+
     public void onStartAction() {
         startedProperty.set(true);
-        initLogic();
+        startGame();
     }
 
     public void onRestartAction() {
         gameOverProperty.set(false);
-        terminateLogic();
-        initLogic();
+        endGame();
+        startGame();
     }
 
     public void onExitAction() {
