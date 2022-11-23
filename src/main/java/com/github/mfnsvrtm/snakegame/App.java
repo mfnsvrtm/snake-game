@@ -1,4 +1,4 @@
-package com.github.mfnsvrtm.SnakeGame;
+package com.github.mfnsvrtm.snakegame;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;

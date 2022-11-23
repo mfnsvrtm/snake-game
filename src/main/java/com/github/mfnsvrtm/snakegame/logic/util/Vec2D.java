@@ -1,10 +1,11 @@
-package com.github.mfnsvrtm.SnakeGame.Logic.Util;
+package com.github.mfnsvrtm.snakegame.logic.util;
 
 import java.util.Objects;
 
+@SuppressWarnings("ClassCanBeRecord")
 public class Vec2D {
-    public int x;
-    public int y;
+    public final int x;
+    public final int y;
 
     public Vec2D(int x, int y) {
         this.x = x;

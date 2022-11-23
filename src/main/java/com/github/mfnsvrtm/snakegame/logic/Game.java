@@ -1,8 +1,8 @@
-package com.github.mfnsvrtm.SnakeGame.Logic;
+package com.github.mfnsvrtm.snakegame.logic;
 
-import com.github.mfnsvrtm.SnakeGame.Model.GameModel;
-import com.github.mfnsvrtm.SnakeGame.Logic.Util.Direction;
-import com.github.mfnsvrtm.SnakeGame.Logic.Util.Vec2D;
+import com.github.mfnsvrtm.snakegame.model.GameModel;
+import com.github.mfnsvrtm.snakegame.logic.util.Direction;
+import com.github.mfnsvrtm.snakegame.logic.util.Vec2D;
 
 public class Game {
     final World world;

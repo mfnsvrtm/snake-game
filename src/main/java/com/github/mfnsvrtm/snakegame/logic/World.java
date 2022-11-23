@@ -1,8 +1,8 @@
-package com.github.mfnsvrtm.SnakeGame.Logic;
+package com.github.mfnsvrtm.snakegame.logic;
 
-import com.github.mfnsvrtm.SnakeGame.Logic.Util.Direction;
-import com.github.mfnsvrtm.SnakeGame.Logic.Util.Vec2D;
-import com.github.mfnsvrtm.SnakeGame.Model.WorldModel;
+import com.github.mfnsvrtm.snakegame.logic.util.Direction;
+import com.github.mfnsvrtm.snakegame.logic.util.Vec2D;
+import com.github.mfnsvrtm.snakegame.model.WorldModel;
 
 public class World {
     private final int width;
@@ -32,6 +32,7 @@ public class World {
         return new WorldModel(width, height);
     }
 
+    @SuppressWarnings("SameReturnValue")
     private int top() {
         return 0;
     }
@@ -40,6 +41,7 @@ public class World {
         return height - 1;
     }
 
+    @SuppressWarnings("SameReturnValue")
     private int left() {
         return 0;
     }

@@ -1,10 +1,10 @@
-package com.github.mfnsvrtm.SnakeGame.Controller;
+package com.github.mfnsvrtm.snakegame.controller;
 
-import com.github.mfnsvrtm.SnakeGame.Logic.Util.Direction;
+import com.github.mfnsvrtm.snakegame.logic.util.Direction;
 
-import com.github.mfnsvrtm.SnakeGame.Model.GameModel;
-import com.github.mfnsvrtm.SnakeGame.Model.WorldModel;
-import com.github.mfnsvrtm.SnakeGame.Threading.ThreadedGame;
+import com.github.mfnsvrtm.snakegame.model.GameModel;
+import com.github.mfnsvrtm.snakegame.model.WorldModel;
+import com.github.mfnsvrtm.snakegame.threading.ThreadedGame;
 import javafx.animation.AnimationTimer;
 import javafx.application.Platform;
 import javafx.beans.property.*;

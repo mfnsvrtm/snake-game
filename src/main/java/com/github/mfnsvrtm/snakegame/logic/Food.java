@@ -1,7 +1,7 @@
-package com.github.mfnsvrtm.SnakeGame.Logic;
+package com.github.mfnsvrtm.snakegame.logic;
 
-import com.github.mfnsvrtm.SnakeGame.Logic.Util.Vec2D;
-import com.github.mfnsvrtm.SnakeGame.Model.FoodModel;
+import com.github.mfnsvrtm.snakegame.logic.util.Vec2D;
+import com.github.mfnsvrtm.snakegame.model.FoodModel;
 
 import java.util.HashSet;
 import java.util.Iterator;
@@ -30,10 +30,6 @@ public class Food implements Iterable<Vec2D> {
 
     boolean contains(Vec2D position) {
         return food.contains(position);
-    }
-
-    public int count() {
-        return food.size();
     }
 
 

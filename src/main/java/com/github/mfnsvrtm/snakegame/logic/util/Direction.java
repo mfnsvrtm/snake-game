@@ -1,4 +1,4 @@
-package com.github.mfnsvrtm.SnakeGame.Logic.Util;
+package com.github.mfnsvrtm.snakegame.logic.util;
 
 public enum Direction {
     UP,

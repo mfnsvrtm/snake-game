@@ -1,3 +1,3 @@
-package com.github.mfnsvrtm.SnakeGame.Model;
+package com.github.mfnsvrtm.snakegame.model;
 
 public record GameModel(SnakeModel snake, FoodModel food, WorldModel world, boolean running, int score) { }
