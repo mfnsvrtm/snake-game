@@ -97,8 +97,7 @@ public class GameController implements Initializable {
         }
 
         gc.setFill(Color.RED);
-        for (var food : model.food()) {
-            var pos = food.position();
+        for (var pos : model.food().items()) {
             gc.fillRect(x + pos.x * size, y + pos.y * size, size, size);
         }
     }

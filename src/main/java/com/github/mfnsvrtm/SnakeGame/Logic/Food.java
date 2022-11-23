@@ -37,8 +37,8 @@ public class Food implements Iterable<Vec2D> {
     }
 
 
-    Iterable<FoodModel> model() {
-        return food.stream().map(FoodModel::new).toList();
+    FoodModel model() {
+        return new FoodModel(food);
     }
 
 
