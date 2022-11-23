@@ -77,7 +77,8 @@ public class GameController implements Initializable {
 
     private void endGame() {
         game.stop();
-        animationTimer.stop();
+        // This is intended. I like that food continues to spawn.
+        // animationTimer.stop();
     }
 
 
