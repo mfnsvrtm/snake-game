@@ -31,7 +31,7 @@ public class GameController implements Initializable {
 
     private RenderMetrics metrics;
 
-    private final WorldModel world = new WorldModel(20, 30);
+    private final WorldModel world = new WorldModel(20, 20);
     private final ThreadedGame game = new ThreadedGame(world.width(), world.height());
 
     private final BooleanProperty startedProperty = new SimpleBooleanProperty(false);
