@@ -8,10 +8,10 @@ import javafx.scene.paint.Color;
 public class GameRenderer {
     private final RenderMetrics metrics;
 
-    private final Color snakeColor = Color.web("#3ecc3e");
-    private final Color foodColor = Color.web("#d02d2d");
-    private final Color bgColor = Color.web("#582828");
-    private final Color fgColor = Color.web("#491e1e");
+    private final Color snakeColor = ColorScheme.SNAKE_COLOR;
+    private final Color foodColor = ColorScheme.FOOD_COLOR;
+    private final Color bgColor = ColorScheme.BG_COLOR;
+    private final Color fgColor = ColorScheme.FG_COLOR;
 
     public GameRenderer(WorldModel worldModel, Canvas canvas) {
         metrics = new RenderMetrics(worldModel, canvas);
