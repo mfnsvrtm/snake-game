@@ -21,7 +21,7 @@ public class FoodTask extends TimerTask {
     public void run() {
         var world = modelAtomic.get().world();
         var random = ThreadLocalRandom.current();
-        if (random.nextFloat() < 0.05 ) {
+        if (random.nextFloat() < 0.02) {
             var x = random.nextInt(0, world.width());
             var y = random.nextInt(0, world.height());
             foodQueue.add(new Vec2D(x, y));
