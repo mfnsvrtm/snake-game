@@ -86,19 +86,38 @@ public class GameController implements Initializable {
     }
 
     private void render(GameModel model, GraphicsContext gc) {
+        renderBackground(model.world(), gc);
+
         var x = metrics.xOffset;
         var y = metrics.yOffset;
         var size = metrics.cellSize;
 
-        gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
-        gc.setFill(Color.BLACK);
+        var snake = Color.web("#3ecc3e");
+        var food = Color.web("#d02d2d");
+
+        gc.setFill(snake);
         for (var pos : model.snake().body()) {
             gc.fillRect(x + pos.x * size, y + pos.y * size, size, size);
         }
 
-        gc.setFill(Color.RED);
+        gc.setFill(food);
         for (var pos : model.food().items()) {
             gc.fillRect(x + pos.x * size, y + pos.y * size, size, size);
+        }
+    }
+
+    private void renderBackground(WorldModel world, GraphicsContext gc) {
+        var background = Color.web("#582828");
+        var foreground = Color.web("#491e1e");
+
+        gc.setFill(background);
+        gc.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
+
+        gc.setFill(foreground);
+        for (int y = 0; y < world.height(); y++) {
+            for (int x = y % 2; x < world.width(); x += 2) {
+                gc.fillRect(metrics.xOffset + x * metrics.cellSize, metrics.yOffset + y * metrics.cellSize, metrics.cellSize, metrics.cellSize);
+            }
         }
     }
 

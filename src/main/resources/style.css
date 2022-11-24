@@ -1,13 +1,17 @@
+.root {
+    -fx-background-color: #582828
+}
+
 .small-container {
     -fx-font-size: 16pt;
-    -fx-background-color: rgba(0, 0, 0, .8);
+    -fx-background-color: rgba(0, 0, 0, .6);
     -fx-padding: 5px;
  }
 
 .large-container {
     -fx-font-size: 24pt;
     -fx-font-weight: bold;
-    -fx-background-color: rgba(0, 0, 0, .8);
+    -fx-background-color: rgba(0, 0, 0, .6);
     -fx-padding: 20px;
     -fx-spacing: 10px;
 }
