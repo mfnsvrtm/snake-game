@@ -14,6 +14,7 @@ public class App extends Application {
     public void start(Stage stage) throws IOException {
         Scene scene = new Scene(loadFXML("game"), 800, 600);
         scene.setFill(ColorScheme.BG_COLOR);
+        stage.setTitle("SnakeGame");
         stage.setResizable(false);
         stage.setScene(scene);
         stage.show();
