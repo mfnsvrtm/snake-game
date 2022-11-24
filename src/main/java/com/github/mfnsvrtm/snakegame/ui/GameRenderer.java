@@ -65,18 +65,21 @@ public class GameRenderer {
         public final double yOffset;
 
         public RenderMetrics(WorldModel worldModel, Canvas canvas) {
-            if (worldModel.width() > worldModel.height()) {
-                worldWidth = canvas.getWidth();
-                cellSize = worldWidth / worldModel.width();
-                worldHeight = cellSize * worldModel.height();
-                yOffset = (canvas.getHeight() - worldHeight) / 2;
-                xOffset = 0;
-            } else {
+            double worldRatio = (double) worldModel.width() / (double) worldModel.height();
+            double canvasRatio = canvas.getWidth() / canvas.getHeight();
+
+            if (worldRatio < canvasRatio) {
                 worldHeight = canvas.getHeight();
                 cellSize = worldHeight / worldModel.height();
                 worldWidth = cellSize * worldModel.width();
                 xOffset = (canvas.getWidth() - worldWidth) / 2;
                 yOffset = 0;
+            } else {
+                worldWidth = canvas.getWidth();
+                cellSize = worldWidth / worldModel.width();
+                worldHeight = cellSize * worldModel.height();
+                yOffset = (canvas.getHeight() - worldHeight) / 2;
+                xOffset = 0;
             }
         }
     }

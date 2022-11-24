@@ -1,5 +1,7 @@
 # snake-game
 
+![screenshot](repo-resources/screenshot.png)
+
 This is my solution to a Java assignment. The assignment was to implement a
 snake game using MVC and make it multithreaded. There should be 3 threads:
 UI thread, game thread, and "food" thread (the food thread is responsible
