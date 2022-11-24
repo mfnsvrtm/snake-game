@@ -4,32 +4,34 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<StackPane fx:id="root" stylesheets="@/style.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.github.mfnsvrtm.snakegame.controller.GameController">
-    <Canvas fx:id="canvas" height="600.0" width="800.0" />
+<StackPane fx:id="root" stylesheets="@/style.css" xmlns="http://javafx.com/javafx/19"
+           xmlns:fx="http://javafx.com/fxml/1"
+           fx:controller="com.github.mfnsvrtm.snakegame.ui.controller.GameController">
+    <Canvas fx:id="canvas" height="600.0" width="800.0"/>
     <VBox fx:id="scoreContainer" alignment="TOP_CENTER" fillWidth="false" visible="false">
         <HBox alignment="CENTER" styleClass="small-container">
-            <Label text="Score: " />
-            <Label fx:id="score" />
+            <Label text="Score: "/>
+            <Label fx:id="score"/>
         </HBox>
     </VBox>
     <VBox fx:id="gameOverMenu" alignment="CENTER" fillWidth="false" visible="false">
         <VBox styleClass="large-container">
             <VBox alignment="CENTER">
-                <Label text="Final Score: " />
-                <Label fx:id="finalScore" />
+                <Label text="Final Score: "/>
+                <Label fx:id="finalScore"/>
             </VBox>
             <HBox alignment="CENTER" styleClass="menu">
-                <Button onAction="#onRestartAction" text="Restart" />
-                <Button onAction="#onExitAction" text="Exit" />
+                <Button onAction="#onRestartAction" text="Restart"/>
+                <Button onAction="#onExitAction" text="Exit"/>
             </HBox>
         </VBox>
     </VBox>
     <VBox fx:id="startMenu" alignment="CENTER" fillWidth="false">
         <VBox alignment="CENTER" styleClass="large-container">
-            <Label text="SnakeGame" />
+            <Label text="SnakeGame"/>
             <HBox alignment="CENTER" styleClass="menu">
-                <Button onAction="#onStartAction" text="Start" />
-                <Button onAction="#onExitAction" text="Exit" />
+                <Button onAction="#onStartAction" text="Start"/>
+                <Button onAction="#onExitAction" text="Exit"/>
             </HBox>
         </VBox>
     </VBox>
