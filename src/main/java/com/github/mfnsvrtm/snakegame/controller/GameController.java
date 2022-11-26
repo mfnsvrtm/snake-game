@@ -15,7 +15,9 @@ import java.util.ResourceBundle;
 public class GameController implements Initializable {
     public StackPane root;
     public SnakeGameView gameView;
+    public Label score;
     public Label finalScore;
+    public VBox scoreContainer;
     public VBox startMenu;
     public VBox gameOverMenu;
 
@@ -26,8 +28,10 @@ public class GameController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         gameView.setWorld(new WorldModel(20, 20));
 
+        score.textProperty().bind(gameView.gameScoreProperty().asString());
         finalScore.textProperty().bind(gameView.gameScoreProperty().asString());
 
+        scoreContainer.visibleProperty().bind(startedProperty.and(gameView.gameRunningProperty()));
         startMenu.visibleProperty().bind(startedProperty.not());
         gameOverMenu.visibleProperty().bind(startedProperty.and(gameView.gameRunningProperty().not()));
     }

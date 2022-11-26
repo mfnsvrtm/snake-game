@@ -10,30 +10,17 @@ import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.event.EventHandler;
-import javafx.geometry.Pos;
 import javafx.scene.canvas.Canvas;
-import javafx.scene.control.Label;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
 
 public class SnakeGameView extends StackPane {
     private final Canvas canvas;
-    private final VBox vBox;
-    private final HBox hBox;
-    private final Label scoreLabel;
-    private final Label scoreValue;
 
     private ThreadedGame game;
 
     private GameRenderer renderer;
 
-    private final BooleanProperty scoreVisibility = new SimpleBooleanProperty(true);
-    public void setScoreVisibility(boolean value) { scoreVisibility.set(value); }
-    public boolean getScoreVisibility() { return scoreVisibility.get(); }
-
-    public BooleanProperty scoreVisibilityProperty() { return scoreVisibility; }
     private final BooleanProperty gameRunning = new SimpleBooleanProperty(false);
     public void setGameRunning(boolean value) { gameRunning.set(value); }
     public boolean getGameRunning() { return gameRunning.get(); }
@@ -47,19 +34,7 @@ public class SnakeGameView extends StackPane {
     public SnakeGameView() {
         this.canvas = new Canvas(800, 600);
 
-        this.scoreLabel = new Label("Score: ");
-        this.scoreValue = new Label();
-
-        this.hBox = new HBox(scoreLabel, scoreValue);
-        this.vBox = new VBox(hBox);
-
-        this.hBox.setAlignment(Pos.CENTER);
-        this.vBox.setAlignment(Pos.TOP_CENTER);
-        this.vBox.setFillWidth(false);
-
-        this.hBox.getStyleClass().add("small-container");
-
-        this.getChildren().addAll(canvas, vBox);
+        this.getChildren().add(canvas);
 
         this.sceneProperty().addListener((observableScene, oldScene, newScene) -> {
             if (oldScene == null && newScene != null) {
@@ -101,7 +76,6 @@ public class SnakeGameView extends StackPane {
     }
 
     private void update(GameModel model) {
-        scoreValue.setText(String.valueOf(model.score()));
         setGameRunning(model.running());
         setGameScore(model.score());
     }

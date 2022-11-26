@@ -8,6 +8,12 @@
            xmlns:fx="http://javafx.com/fxml/1"
            fx:controller="com.github.mfnsvrtm.snakegame.controller.GameController">
     <SnakeGameView fx:id="gameView"/>
+    <VBox fx:id="scoreContainer" alignment="TOP_CENTER" fillWidth="false" visible="false">
+        <HBox alignment="CENTER" styleClass="small-container">
+            <Label text="Score: "/>
+            <Label fx:id="score"/>
+        </HBox>
+    </VBox>
     <VBox fx:id="gameOverMenu" alignment="CENTER" fillWidth="false" visible="false">
         <VBox styleClass="large-container">
             <VBox alignment="CENTER">
