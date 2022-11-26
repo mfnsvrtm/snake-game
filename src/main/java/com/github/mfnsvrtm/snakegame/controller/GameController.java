@@ -2,7 +2,7 @@ package com.github.mfnsvrtm.snakegame.controller;
 
 
 import com.github.mfnsvrtm.snakegame.model.WorldModel;
-import com.github.mfnsvrtm.snakegame.ui.SnakeGameView;
+import com.github.mfnsvrtm.snakegame.ui.SnakeGameComponent;
 import javafx.application.Platform;
 import javafx.beans.property.*;
 import javafx.fxml.Initializable;
@@ -14,7 +14,7 @@ import java.util.ResourceBundle;
 
 public class GameController implements Initializable {
     public StackPane root;
-    public SnakeGameView gameView;
+    public SnakeGameComponent gameView;
     public Label score;
     public Label finalScore;
     public VBox scoreContainer;

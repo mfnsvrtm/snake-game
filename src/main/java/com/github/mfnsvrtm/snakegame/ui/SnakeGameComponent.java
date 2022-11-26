@@ -14,7 +14,7 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.StackPane;
 
-public class SnakeGameView extends StackPane {
+public class SnakeGameComponent extends StackPane {
     private final Canvas canvas;
 
     private ThreadedGame game;
@@ -31,7 +31,7 @@ public class SnakeGameView extends StackPane {
     public int getGameScore() { return gameScore.get(); }
     public IntegerProperty gameScoreProperty() { return gameScore; }
 
-    public SnakeGameView() {
+    public SnakeGameComponent() {
         this.canvas = new Canvas(800, 600);
 
         this.getChildren().add(canvas);
