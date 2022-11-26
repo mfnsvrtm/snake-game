@@ -6,7 +6,7 @@
 <?import com.github.mfnsvrtm.snakegame.ui.SnakeGameComponent?>
 <StackPane fx:id="root" stylesheets="@/style.css" xmlns="http://javafx.com/javafx/19"
            xmlns:fx="http://javafx.com/fxml/1"
-           fx:controller="com.github.mfnsvrtm.snakegame.controller.GameController">
+           fx:controller="com.github.mfnsvrtm.snakegame.ui.controller.GameController">
     <SnakeGameComponent fx:id="gameView"/>
     <VBox fx:id="scoreContainer" alignment="TOP_CENTER" fillWidth="false" visible="false">
         <HBox alignment="CENTER" styleClass="small-container">

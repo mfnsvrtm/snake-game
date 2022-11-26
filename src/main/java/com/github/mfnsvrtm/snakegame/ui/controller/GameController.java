@@ -1,4 +1,4 @@
-package com.github.mfnsvrtm.snakegame.controller;
+package com.github.mfnsvrtm.snakegame.ui.controller;
 
 
 import com.github.mfnsvrtm.snakegame.model.WorldModel;
