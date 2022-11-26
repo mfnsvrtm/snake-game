@@ -12,11 +12,8 @@ import javafx.beans.property.SimpleIntegerProperty;
 import javafx.event.EventHandler;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.layout.StackPane;
 
-public class SnakeGameComponent extends StackPane {
-    private final Canvas canvas;
-
+public class SnakeGameComponent extends Canvas {
     private ThreadedGame game;
 
     private GameRenderer renderer;
@@ -32,9 +29,7 @@ public class SnakeGameComponent extends StackPane {
     public IntegerProperty gameScoreProperty() { return gameScore; }
 
     public SnakeGameComponent() {
-        this.canvas = new Canvas(800, 600);
-
-        this.getChildren().add(canvas);
+        super(800, 600);
 
         this.sceneProperty().addListener((observableScene, oldScene, newScene) -> {
             if (oldScene == null && newScene != null) {
@@ -45,7 +40,7 @@ public class SnakeGameComponent extends StackPane {
 
     public void setWorld(WorldModel world) {
         this.game = new ThreadedGame(world.width(), world.height());
-        this.renderer = new GameRenderer(world, canvas);
+        this.renderer = new GameRenderer(world, this);
     }
 
     public void startGame() {
@@ -81,7 +76,7 @@ public class SnakeGameComponent extends StackPane {
     }
 
     private void render(GameModel model) {
-        renderer.render(model, canvas);
+        renderer.render(model, this);
     }
 
     private final EventHandler<KeyEvent> onKeyPressed = (e) -> {
