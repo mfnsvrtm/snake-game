@@ -3,6 +3,7 @@ package com.github.mfnsvrtm.snakegame.ui;
 import javafx.scene.paint.Color;
 
 public final class ColorSchemeConstants {
+
     public static final Color SNAKE_COLOR = Color.web("#3ecc3e");
     public static final Color FOOD_COLOR = Color.web("#d02d2d");
     public static final Color BG_COLOR = Color.web("#582828");
@@ -11,4 +12,5 @@ public final class ColorSchemeConstants {
     private ColorSchemeConstants() {
 
     }
+    
 }

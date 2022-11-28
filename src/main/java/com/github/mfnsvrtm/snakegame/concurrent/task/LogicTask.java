@@ -10,11 +10,11 @@ import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.atomic.AtomicReference;
 
 public class LogicTask extends TimerTask {
+
     private final Game game;
     private final AtomicReference<GameModel> modelAtomic;
     private final AtomicReference<Direction> turnDirectionAtomic;
     private final BlockingQueue<Vec2D> foodQueue;
-
 
     public LogicTask(Game game, AtomicReference<GameModel> modelAtomic, AtomicReference<Direction> turnDirectionAtomic,
                      BlockingQueue<Vec2D> foodQueue) {
@@ -41,4 +41,5 @@ public class LogicTask extends TimerTask {
             game.food().add(food);
         }
     }
+
 }

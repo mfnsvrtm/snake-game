@@ -9,6 +9,7 @@ import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.atomic.AtomicReference;
 
 public class FoodTask extends TimerTask {
+    
     private final BlockingQueue<Vec2D> foodQueue;
     private final AtomicReference<GameModel> modelAtomic;
 
@@ -27,4 +28,5 @@ public class FoodTask extends TimerTask {
             foodQueue.add(new Vec2D(x, y));
         }
     }
+    
 }

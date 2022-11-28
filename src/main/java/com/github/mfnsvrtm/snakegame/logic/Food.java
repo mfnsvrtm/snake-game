@@ -8,15 +8,14 @@ import java.util.Iterator;
 import java.util.Set;
 
 public class Food implements Iterable<Vec2D> {
+
     private final Game game;
     private final Set<Vec2D> food;
-
 
     public Food(Game game) {
         this.game = game;
         this.food = new HashSet<>();
     }
-
 
     public void add(Vec2D position) {
         if (!game.snake.contains(position)) {
@@ -32,14 +31,13 @@ public class Food implements Iterable<Vec2D> {
         return food.contains(position);
     }
 
-
     FoodModel getModel() {
         return new FoodModel(food);
     }
-
 
     @Override
     public Iterator<Vec2D> iterator() {
         return food.iterator();
     }
+
 }

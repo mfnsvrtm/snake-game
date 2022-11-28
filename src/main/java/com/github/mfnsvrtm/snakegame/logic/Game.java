@@ -5,13 +5,13 @@ import com.github.mfnsvrtm.snakegame.logic.util.Direction;
 import com.github.mfnsvrtm.snakegame.logic.util.Vec2D;
 
 public class Game {
+
     final World world;
     final Snake snake;
     final Food food;
 
     private boolean running;
     private int score;
-
 
     public Game(int width, int height) {
         this.world = new World(width, height);
@@ -21,7 +21,6 @@ public class Game {
         this.running = true;
         this.score = 0;
     }
-
 
     public boolean tick() {
         if (!running) {
@@ -36,7 +35,6 @@ public class Game {
         return running;
     }
 
-    
     public Snake snake() {
         return snake;
     }
@@ -52,11 +50,9 @@ public class Game {
         return new GameModel(snake, food, world, running, score);
     }
 
-
     private void updateScore() {
         score += snake.size();
     }
-
 
     private Snake makeDefaultSnake() {
         return new Snake(this, new Vec2D(0, 0), Direction.RIGHT);
@@ -65,4 +61,5 @@ public class Game {
     private Food makeDefaultFood() {
         return new Food(this);
     }
+    
 }

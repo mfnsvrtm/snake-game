@@ -7,6 +7,7 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 
 public class GameRenderer {
+
     private final RenderMetrics metrics;
 
     private final Color snakeColor = ColorSchemeConstants.SNAKE_COLOR;
@@ -57,6 +58,7 @@ public class GameRenderer {
     }
 
     private static class RenderMetrics {
+
         public final double worldWidth;
         public final double worldHeight;
 
@@ -83,5 +85,7 @@ public class GameRenderer {
                 xOffset = 0;
             }
         }
+        
     }
+
 }

@@ -5,6 +5,7 @@ import com.github.mfnsvrtm.snakegame.logic.util.Vec2D;
 import com.github.mfnsvrtm.snakegame.model.WorldModel;
 
 public class World {
+
     private final int width;
     private final int height;
 
@@ -27,7 +28,6 @@ public class World {
         return position.moved(direction);
     }
 
-
     WorldModel getModel() {
         return new WorldModel(width, height);
     }
@@ -49,4 +49,5 @@ public class World {
     private int right() {
         return width - 1;
     }
+    
 }

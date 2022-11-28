@@ -10,6 +10,7 @@ import javafx.stage.Stage;
 import java.io.IOException;
 
 public class App extends Application {
+
     @Override
     public void start(Stage stage) throws IOException {
         Scene scene = new Scene(loadFXML("game"), 800, 600);
@@ -23,4 +24,5 @@ public class App extends Application {
     private static Parent loadFXML(String fxml) throws IOException {
         return new FXMLLoader(App.class.getResource("/fxml/" + fxml + ".fxml")).load();
     }
+    
 }

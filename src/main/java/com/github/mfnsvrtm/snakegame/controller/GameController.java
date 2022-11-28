@@ -20,6 +20,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 public class GameController implements Initializable {
+
     public StackPane root;
     public Canvas canvas;
     public Label score;
@@ -55,10 +56,10 @@ public class GameController implements Initializable {
         });
     }
 
-
     private void startGame() {
         game.start();
         new AnimationTimer() {
+
             private GameModel oldModel = null;
 
             @Override
@@ -70,6 +71,7 @@ public class GameController implements Initializable {
                     oldModel = model;
                 }
             }
+            
         }.start();
     }
 
@@ -77,7 +79,6 @@ public class GameController implements Initializable {
         game.stop();
         // I intentionally don't stop the AnimationTimer. That way food keeps spawning.
     }
-
 
     private void update(GameModel model) {
         scoreProperty.set(model.score());
@@ -87,7 +88,6 @@ public class GameController implements Initializable {
     private void render(GameModel model) {
         renderer.render(model, canvas);
     }
-
 
     private final EventHandler<KeyEvent> onKeyPressed = (e) -> {
         if (e.getCode().isArrowKey()) {
@@ -100,7 +100,6 @@ public class GameController implements Initializable {
             });
         }
     };
-
 
     public void onStartAction() {
         startedProperty.set(true);
@@ -116,4 +115,5 @@ public class GameController implements Initializable {
     public void onExitAction() {
         Platform.exit();
     }
+
 }

@@ -5,6 +5,7 @@ import lombok.EqualsAndHashCode;
 @SuppressWarnings("ClassCanBeRecord")
 @EqualsAndHashCode
 public class Vec2D {
+
     public final int x;
     public final int y;
 
@@ -21,5 +22,6 @@ public class Vec2D {
             case RIGHT -> new Vec2D(x + 1, y);
         };
     }
+    
 }
 

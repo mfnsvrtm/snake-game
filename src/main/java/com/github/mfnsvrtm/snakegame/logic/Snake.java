@@ -9,17 +9,16 @@ import java.util.Deque;
 import java.util.List;
 
 public class Snake {
+
     private final Game game;
     private final Deque<Vec2D> body;
     private Direction direction;
-
 
     Snake(Game game, Vec2D position, Direction direction) {
         this.game = game;
         this.body = new ArrayDeque<>(List.of(position));
         this.direction = direction;
     }
-
 
     boolean move() {
         Vec2D newHead = game.world.move(body.getFirst(), direction);
@@ -53,8 +52,8 @@ public class Snake {
         return body.size();
     }
 
-
     SnakeModel getModel() {
         return new SnakeModel(body);
     }
+    
 }

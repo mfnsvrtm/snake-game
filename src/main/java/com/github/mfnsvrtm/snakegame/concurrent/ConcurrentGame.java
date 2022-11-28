@@ -13,6 +13,7 @@ import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.atomic.AtomicReference;
 
 public class ConcurrentGame {
+
     private final int gameWidth;
     private final int gameHeight;
 
@@ -21,7 +22,6 @@ public class ConcurrentGame {
 
     private Timer logicTimer;
     private Timer foodTimer;
-
 
     public ConcurrentGame(int width, int height) {
         this.gameWidth = width;
@@ -63,4 +63,5 @@ public class ConcurrentGame {
             throw new RuntimeException("Call to model() before start() was called.");
         }
     }
+    
 }
