@@ -54,7 +54,7 @@ public class Snake {
     }
 
 
-    SnakeModel model() {
+    SnakeModel getModel() {
         return new SnakeModel(body);
     }
 }

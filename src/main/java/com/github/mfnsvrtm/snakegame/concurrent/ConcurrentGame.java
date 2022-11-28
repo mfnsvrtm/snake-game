@@ -30,7 +30,7 @@ public class ConcurrentGame {
 
     public void start() {
         Game game = new Game(gameWidth, gameHeight);
-        modelAtomic = new AtomicReference<>(game.model());
+        modelAtomic = new AtomicReference<>(game.getModel());
         turnDirectionAtomic = new AtomicReference<>(null);
         BlockingQueue<Vec2D> foodQueue = new LinkedBlockingQueue<>();
 

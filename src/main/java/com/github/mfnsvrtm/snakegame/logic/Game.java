@@ -45,10 +45,10 @@ public class Game {
         return food;
     }
 
-    public GameModel model() {
-        var snake = this.snake.model();
-        var food = this.food.model();
-        var world = this.world.model();
+    public GameModel getModel() {
+        var snake = this.snake.getModel();
+        var food = this.food.getModel();
+        var world = this.world.getModel();
         return new GameModel(snake, food, world, running, score);
     }
 

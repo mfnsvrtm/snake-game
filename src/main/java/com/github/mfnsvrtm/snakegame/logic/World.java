@@ -28,7 +28,7 @@ public class World {
     }
 
 
-    WorldModel model() {
+    WorldModel getModel() {
         return new WorldModel(width, height);
     }
 

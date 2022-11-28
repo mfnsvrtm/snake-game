@@ -33,7 +33,7 @@ public class Food implements Iterable<Vec2D> {
     }
 
 
-    FoodModel model() {
+    FoodModel getModel() {
         return new FoodModel(food);
     }
 

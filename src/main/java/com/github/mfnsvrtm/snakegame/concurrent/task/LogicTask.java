@@ -27,7 +27,7 @@ public class LogicTask extends TimerTask {
     @Override
     public void run() {
         var running = game.tick();
-        modelAtomic.set(game.model());
+        modelAtomic.set(game.getModel());
 
         // If turnDirection gets updated after the .get() and before the .getAndSet(), that's fine. If that
         // happens, it should still be non-null. The only atomic part that I care about is .getAndSet().
