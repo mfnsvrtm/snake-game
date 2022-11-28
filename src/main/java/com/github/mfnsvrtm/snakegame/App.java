@@ -1,6 +1,6 @@
 package com.github.mfnsvrtm.snakegame;
 
-import com.github.mfnsvrtm.snakegame.ui.ColorScheme;
+import com.github.mfnsvrtm.snakegame.ui.ColorSchemeConstants;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -13,7 +13,7 @@ public class App extends Application {
     @Override
     public void start(Stage stage) throws IOException {
         Scene scene = new Scene(loadFXML("game"), 800, 600);
-        scene.setFill(ColorScheme.BG_COLOR);
+        scene.setFill(ColorSchemeConstants.BG_COLOR);
         stage.setTitle("SnakeGame");
         stage.setResizable(false);
         stage.setScene(scene);
