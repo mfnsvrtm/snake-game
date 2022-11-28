@@ -3,6 +3,7 @@ package com.github.mfnsvrtm.snakegame.ui;
 import com.github.mfnsvrtm.snakegame.model.GameModel;
 import com.github.mfnsvrtm.snakegame.model.WorldModel;
 import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 
 public class GameRenderer {
@@ -20,7 +21,7 @@ public class GameRenderer {
     public void render(GameModel model, Canvas canvas) {
         renderBackground(model.world(), canvas);
 
-        var gc = canvas.getGraphicsContext2D();
+        GraphicsContext gc = canvas.getGraphicsContext2D();
 
         var x = metrics.xOffset;
         var y = metrics.yOffset;
@@ -38,7 +39,7 @@ public class GameRenderer {
     }
 
     private void renderBackground(WorldModel world, Canvas canvas) {
-        var gc = canvas.getGraphicsContext2D();
+        GraphicsContext gc = canvas.getGraphicsContext2D();
 
         gc.setFill(bgColor);
         gc.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
