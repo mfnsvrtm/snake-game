@@ -1,4 +1,4 @@
-package com.github.mfnsvrtm.snakegame.ui.controller;
+package com.github.mfnsvrtm.snakegame.controller;
 
 import com.github.mfnsvrtm.snakegame.logic.util.Direction;
 
