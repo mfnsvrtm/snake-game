@@ -14,7 +14,7 @@ public class GameRenderer {
     private final Color fgColor = ColorScheme.FG_COLOR;
 
     public GameRenderer(WorldModel worldModel, Canvas canvas) {
-        metrics = new RenderMetrics(worldModel, canvas);
+        this.metrics = new RenderMetrics(worldModel, canvas);
     }
 
     public void render(GameModel model, Canvas canvas) {
