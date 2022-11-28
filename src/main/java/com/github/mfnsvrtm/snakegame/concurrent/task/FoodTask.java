@@ -1,4 +1,4 @@
-package com.github.mfnsvrtm.snakegame.threading.task;
+package com.github.mfnsvrtm.snakegame.concurrent.task;
 
 import com.github.mfnsvrtm.snakegame.logic.util.Vec2D;
 import com.github.mfnsvrtm.snakegame.model.GameModel;

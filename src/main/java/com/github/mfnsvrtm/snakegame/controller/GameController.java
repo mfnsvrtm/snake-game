@@ -4,7 +4,7 @@ import com.github.mfnsvrtm.snakegame.logic.util.Direction;
 
 import com.github.mfnsvrtm.snakegame.model.GameModel;
 import com.github.mfnsvrtm.snakegame.model.WorldModel;
-import com.github.mfnsvrtm.snakegame.threading.ThreadedGame;
+import com.github.mfnsvrtm.snakegame.concurrent.ConcurrentGame;
 import com.github.mfnsvrtm.snakegame.ui.GameRenderer;
 import javafx.animation.AnimationTimer;
 import javafx.application.Platform;
@@ -31,7 +31,7 @@ public class GameController implements Initializable {
     private GameRenderer renderer;
 
     private final WorldModel world = new WorldModel(20, 20);
-    private final ThreadedGame game = new ThreadedGame(world.width(), world.height());
+    private final ConcurrentGame game = new ConcurrentGame(world.width(), world.height());
 
     private final BooleanProperty startedProperty = new SimpleBooleanProperty(false);
     private final BooleanProperty gameOverProperty = new SimpleBooleanProperty(false);

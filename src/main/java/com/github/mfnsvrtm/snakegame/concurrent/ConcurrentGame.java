@@ -1,18 +1,18 @@
-package com.github.mfnsvrtm.snakegame.threading;
+package com.github.mfnsvrtm.snakegame.concurrent;
 
 import com.github.mfnsvrtm.snakegame.logic.Game;
 import com.github.mfnsvrtm.snakegame.logic.util.Direction;
 import com.github.mfnsvrtm.snakegame.logic.util.Vec2D;
 import com.github.mfnsvrtm.snakegame.model.GameModel;
-import com.github.mfnsvrtm.snakegame.threading.task.FoodTask;
-import com.github.mfnsvrtm.snakegame.threading.task.LogicTask;
+import com.github.mfnsvrtm.snakegame.concurrent.task.FoodTask;
+import com.github.mfnsvrtm.snakegame.concurrent.task.LogicTask;
 
 import java.util.Timer;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.atomic.AtomicReference;
 
-public class ThreadedGame {
+public class ConcurrentGame {
     private final int gameWidth;
     private final int gameHeight;
 
@@ -23,7 +23,7 @@ public class ThreadedGame {
     private Timer foodTimer;
 
 
-    public ThreadedGame(int width, int height) {
+    public ConcurrentGame(int width, int height) {
         this.gameWidth = width;
         this.gameHeight = height;
     }
