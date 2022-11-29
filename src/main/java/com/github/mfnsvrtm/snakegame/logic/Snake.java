@@ -8,7 +8,7 @@ import java.util.ArrayDeque;
 import java.util.Deque;
 import java.util.List;
 
-public class Snake {
+public class Snake implements Stateful<SnakeModel> {
 
     private final Game game;
     private final Deque<Vec2D> body;
@@ -52,7 +52,8 @@ public class Snake {
         return body.size();
     }
 
-    SnakeModel getModel() {
+    @Override
+    public SnakeModel currentState() {
         return new SnakeModel(body);
     }
     

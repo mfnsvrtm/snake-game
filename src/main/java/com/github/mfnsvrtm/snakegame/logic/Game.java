@@ -4,7 +4,7 @@ import com.github.mfnsvrtm.snakegame.model.GameModel;
 import com.github.mfnsvrtm.snakegame.logic.util.Direction;
 import com.github.mfnsvrtm.snakegame.logic.util.Vec2D;
 
-public class Game {
+public class Game implements Stateful<GameModel> {
 
     final World world;
     final Snake snake;
@@ -43,10 +43,11 @@ public class Game {
         return food;
     }
 
-    public GameModel getModel() {
-        var snake = this.snake.getModel();
-        var food = this.food.getModel();
-        var world = this.world.getModel();
+    @Override
+    public GameModel currentState() {
+        var snake = this.snake.currentState();
+        var food = this.food.currentState();
+        var world = this.world.currentState();
         return new GameModel(snake, food, world, running, score);
     }
 

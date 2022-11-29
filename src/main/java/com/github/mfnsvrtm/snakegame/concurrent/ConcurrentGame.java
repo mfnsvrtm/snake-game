@@ -1,6 +1,7 @@
 package com.github.mfnsvrtm.snakegame.concurrent;
 
 import com.github.mfnsvrtm.snakegame.logic.Game;
+import com.github.mfnsvrtm.snakegame.logic.Stateful;
 import com.github.mfnsvrtm.snakegame.logic.util.Direction;
 import com.github.mfnsvrtm.snakegame.logic.util.Vec2D;
 import com.github.mfnsvrtm.snakegame.model.GameModel;
@@ -12,7 +13,7 @@ import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.atomic.AtomicReference;
 
-public class ConcurrentGame {
+public class ConcurrentGame implements Stateful<GameModel> {
 
     private final int gameWidth;
     private final int gameHeight;
@@ -30,7 +31,7 @@ public class ConcurrentGame {
 
     public void start() {
         Game game = new Game(gameWidth, gameHeight);
-        modelAtomic = new AtomicReference<>(game.getModel());
+        modelAtomic = new AtomicReference<>(game.currentState());
         turnDirectionAtomic = new AtomicReference<>(null);
         BlockingQueue<Vec2D> foodQueue = new LinkedBlockingQueue<>();
 
@@ -56,11 +57,12 @@ public class ConcurrentGame {
         }
     }
 
-    public GameModel model() {
+    @Override
+    public GameModel currentState() {
         if (modelAtomic != null) {
             return modelAtomic.get();
         } else {
-            throw new RuntimeException("Call to model() before start() was called.");
+            throw new RuntimeException("Call to currentState() before start() was called.");
         }
     }
     

@@ -64,7 +64,7 @@ public class GameController implements Initializable {
 
             @Override
             public void handle(long l) {
-                var model = game.model();
+                var model = game.currentState();
                 if (model != oldModel) {
                     update(model);
                     render(model);
