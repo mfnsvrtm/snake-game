@@ -4,14 +4,14 @@ import com.github.mfnsvrtm.snakegame.model.GameModel;
 import com.github.mfnsvrtm.snakegame.logic.util.Direction;
 import com.github.mfnsvrtm.snakegame.logic.util.Vec2D;
 
-public class Game {
+public class Game implements Stateful<GameModel> {
+
     final World world;
     final Snake snake;
     final Food food;
 
     private boolean running;
     private int score;
-
 
     public Game(int width, int height) {
         this.world = new World(width, height);
@@ -21,7 +21,6 @@ public class Game {
         this.running = true;
         this.score = 0;
     }
-
 
     public boolean tick() {
         if (!running) {
@@ -36,7 +35,6 @@ public class Game {
         return running;
     }
 
-    
     public Snake snake() {
         return snake;
     }
@@ -45,18 +43,17 @@ public class Game {
         return food;
     }
 
-    public GameModel model() {
-        var snake = this.snake.model();
-        var food = this.food.model();
-        var world = this.world.model();
+    @Override
+    public GameModel currentState() {
+        var snake = this.snake.currentState();
+        var food = this.food.currentState();
+        var world = this.world.currentState();
         return new GameModel(snake, food, world, running, score);
     }
-
 
     private void updateScore() {
         score += snake.size();
     }
-
 
     private Snake makeDefaultSnake() {
         return new Snake(this, new Vec2D(0, 0), Direction.RIGHT);
@@ -65,4 +62,5 @@ public class Game {
     private Food makeDefaultFood() {
         return new Food(this);
     }
+    
 }

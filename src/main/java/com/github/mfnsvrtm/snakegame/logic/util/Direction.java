@@ -1,6 +1,7 @@
 package com.github.mfnsvrtm.snakegame.logic.util;
 
 public enum Direction {
+
     UP,
     DOWN,
     LEFT,
@@ -14,4 +15,5 @@ public enum Direction {
             case RIGHT -> LEFT;
         };
     }
+    
 }

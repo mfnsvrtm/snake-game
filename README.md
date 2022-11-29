@@ -19,17 +19,16 @@ This scene is defined by the `game.fxml` markup file as well as the
 `style.css` style file (look for them in the `/src/main/resources` folder).
 Finally, this scene has an associated `GameController` controller.
 
-There are 4 top level packages: `ui`, `logic`, `model`, and
-`threading`.
+There are 5 top level packages: `controller`, `ui`, `logic`, `model`, and
+`concurrent`.
 
-- `ui` contains the `GameController` (located in the `controller` subpackage)
-  class mentioned above as well as the `GameRenderer` class, which renders 
-  the game to a canvas. 
+- `controller` contains the `GameController` class mentioned above.
+- `ui` has rendering and colorscheme related classes. 
 - `logic` contains the basic, core implementation of the Snake game.
   It's UI agnostic and single threaded. `Game` is the main class.
 - `model` contains immutable classes that used to describe game state.
   `Game` uses these classes as part of its public API.
-- `threading` contains multithreading related classes. `ThreadedGame`
-  being the primary one. It's a wrapper around `Game` that sets up 2
-  threads (game thread and food thread) and manages communication between
-  these and the main thread.
+- `concurrent` contains multithreading & concurrency related classes.
+  `ConcurrentGame` being the primary one. It's a wrapper around `Game`
+  that sets up 2  threads (game thread and food thread) and manages 
+  communication between these and the main thread.

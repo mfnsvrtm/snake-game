@@ -1,18 +1,20 @@
-package com.github.mfnsvrtm.snakegame.threading;
+package com.github.mfnsvrtm.snakegame.concurrent;
 
 import com.github.mfnsvrtm.snakegame.logic.Game;
+import com.github.mfnsvrtm.snakegame.logic.Stateful;
 import com.github.mfnsvrtm.snakegame.logic.util.Direction;
 import com.github.mfnsvrtm.snakegame.logic.util.Vec2D;
 import com.github.mfnsvrtm.snakegame.model.GameModel;
-import com.github.mfnsvrtm.snakegame.threading.task.FoodTask;
-import com.github.mfnsvrtm.snakegame.threading.task.LogicTask;
+import com.github.mfnsvrtm.snakegame.concurrent.task.FoodTask;
+import com.github.mfnsvrtm.snakegame.concurrent.task.LogicTask;
 
 import java.util.Timer;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.atomic.AtomicReference;
 
-public class ThreadedGame {
+public class ConcurrentGame implements Stateful<GameModel> {
+
     private final int gameWidth;
     private final int gameHeight;
 
@@ -22,15 +24,14 @@ public class ThreadedGame {
     private Timer logicTimer;
     private Timer foodTimer;
 
-
-    public ThreadedGame(int width, int height) {
+    public ConcurrentGame(int width, int height) {
         this.gameWidth = width;
         this.gameHeight = height;
     }
 
     public void start() {
         Game game = new Game(gameWidth, gameHeight);
-        modelAtomic = new AtomicReference<>(game.model());
+        modelAtomic = new AtomicReference<>(game.currentState());
         turnDirectionAtomic = new AtomicReference<>(null);
         BlockingQueue<Vec2D> foodQueue = new LinkedBlockingQueue<>();
 
@@ -56,11 +57,13 @@ public class ThreadedGame {
         }
     }
 
-    public GameModel model() {
+    @Override
+    public GameModel currentState() {
         if (modelAtomic != null) {
             return modelAtomic.get();
         } else {
-            throw new RuntimeException("Call to model() before start() was called.");
+            throw new RuntimeException("Call to currentState() before start() was called.");
         }
     }
+    
 }

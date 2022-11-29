@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.canvas.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import com.github.mfnsvrtm.snakegame.ui.GameComponent?>
 
 <StackPane fx:id="root" stylesheets="@/style.css" xmlns="http://javafx.com/javafx/19"
            xmlns:fx="http://javafx.com/fxml/1"
-           fx:controller="com.github.mfnsvrtm.snakegame.ui.controller.GameController">
-    <Canvas fx:id="canvas" height="600.0" width="800.0"/>
+           fx:controller="com.github.mfnsvrtm.snakegame.controller.GameController">
+    <GameComponent fx:id="gameComponent"/>
     <VBox fx:id="scoreContainer" alignment="TOP_CENTER" fillWidth="false" visible="false">
         <HBox alignment="CENTER" styleClass="small-container">
             <Label text="Score: "/>

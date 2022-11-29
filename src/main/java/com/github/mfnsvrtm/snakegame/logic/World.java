@@ -4,7 +4,8 @@ import com.github.mfnsvrtm.snakegame.logic.util.Direction;
 import com.github.mfnsvrtm.snakegame.logic.util.Vec2D;
 import com.github.mfnsvrtm.snakegame.model.WorldModel;
 
-public class World {
+public class World implements Stateful<WorldModel> {
+
     private final int width;
     private final int height;
 
@@ -27,8 +28,8 @@ public class World {
         return position.moved(direction);
     }
 
-
-    WorldModel model() {
+    @Override
+    public WorldModel currentState() {
         return new WorldModel(width, height);
     }
 
@@ -49,4 +50,5 @@ public class World {
     private int right() {
         return width - 1;
     }
+    
 }

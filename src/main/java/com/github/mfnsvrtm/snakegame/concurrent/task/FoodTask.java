@@ -1,4 +1,4 @@
-package com.github.mfnsvrtm.snakegame.threading.task;
+package com.github.mfnsvrtm.snakegame.concurrent.task;
 
 import com.github.mfnsvrtm.snakegame.logic.util.Vec2D;
 import com.github.mfnsvrtm.snakegame.model.GameModel;
@@ -9,6 +9,7 @@ import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.atomic.AtomicReference;
 
 public class FoodTask extends TimerTask {
+    
     private final BlockingQueue<Vec2D> foodQueue;
     private final AtomicReference<GameModel> modelAtomic;
 
@@ -27,4 +28,5 @@ public class FoodTask extends TimerTask {
             foodQueue.add(new Vec2D(x, y));
         }
     }
+    
 }

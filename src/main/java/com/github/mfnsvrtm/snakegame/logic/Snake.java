@@ -8,18 +8,17 @@ import java.util.ArrayDeque;
 import java.util.Deque;
 import java.util.List;
 
-public class Snake {
+public class Snake implements Stateful<SnakeModel> {
+
     private final Game game;
     private final Deque<Vec2D> body;
     private Direction direction;
-
 
     Snake(Game game, Vec2D position, Direction direction) {
         this.game = game;
         this.body = new ArrayDeque<>(List.of(position));
         this.direction = direction;
     }
-
 
     boolean move() {
         Vec2D newHead = game.world.move(body.getFirst(), direction);
@@ -53,8 +52,9 @@ public class Snake {
         return body.size();
     }
 
-
-    SnakeModel model() {
+    @Override
+    public SnakeModel currentState() {
         return new SnakeModel(body);
     }
+    
 }
